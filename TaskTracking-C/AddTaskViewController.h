@@ -10,4 +10,16 @@
 
 @interface AddTaskViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *txtTask;
+
+@property (weak, nonatomic) IBOutlet UITextField *txtDateTime;
+
+@property (weak, nonatomic) IBOutlet UILabel *labProgress;
+
+@property (weak, nonatomic) IBOutlet UISlider *sliderProgress;
+
+@property NSString *taskName;
+@property NSDate *dateTime;
+@property NSNumber *progress;
+
 @end

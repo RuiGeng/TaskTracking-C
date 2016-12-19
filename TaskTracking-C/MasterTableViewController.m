@@ -95,6 +95,28 @@
     return cell;
 }
 
+//Delete Button
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"Delete";
+}
+
+
+//Delete One Row
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSManagedObjectContext *managedObjectContext = [[DataManager sharedManager] managedObjectContext];
+        
+        Task *task = self.toDoItems[indexPath.row];
+        [self.toDoItems removeObject:task];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [managedObjectContext deleteObject:task];
+        
+        [[DataManager sharedManager] saveContext];
+    }
+}
+
 
 /*
  // Override to support conditional editing of the table view.

@@ -14,7 +14,10 @@
 		8A256BDE1DFA3F3A0072FE16 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A256BDC1DFA3F3A0072FE16 /* LaunchScreen.storyboard */; };
 		8A256BE71DFA44A40072FE16 /* MasterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A256BE61DFA44A40072FE16 /* MasterTableViewController.m */; };
 		8A256BEA1DFA44BF0072FE16 /* AddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A256BE91DFA44BF0072FE16 /* AddTaskViewController.m */; };
-		8A256BED1DFA4B8A0072FE16 /* ToDoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A256BEC1DFA4B8A0072FE16 /* ToDoItem.m */; };
+		8A9367F91E088FEE00520888 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8A9367F71E088FEE00520888 /* Model.xcdatamodeld */; };
+		8A9367FC1E08907300520888 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9367FB1E08907300520888 /* DataManager.m */; };
+		8A9367FF1E0892A000520888 /* Task+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9367FE1E0892A000520888 /* Task+CoreDataClass.m */; };
+		8A9368021E08933600520888 /* Task+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9368011E08933600520888 /* Task+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +33,13 @@
 		8A256BE61DFA44A40072FE16 /* MasterTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterTableViewController.m; sourceTree = "<group>"; };
 		8A256BE81DFA44BF0072FE16 /* AddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTaskViewController.h; sourceTree = "<group>"; };
 		8A256BE91DFA44BF0072FE16 /* AddTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTaskViewController.m; sourceTree = "<group>"; };
-		8A256BEB1DFA4B8A0072FE16 /* ToDoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoItem.h; sourceTree = "<group>"; };
-		8A256BEC1DFA4B8A0072FE16 /* ToDoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoItem.m; sourceTree = "<group>"; };
+		8A9367F81E088FEE00520888 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		8A9367FA1E08907300520888 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		8A9367FB1E08907300520888 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+		8A9367FD1E0892A000520888 /* Task+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Task+CoreDataClass.h"; sourceTree = "<group>"; };
+		8A9367FE1E0892A000520888 /* Task+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Task+CoreDataClass.m"; sourceTree = "<group>"; };
+		8A9368001E08933600520888 /* Task+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Task+CoreDataProperties.h"; sourceTree = "<group>"; };
+		8A9368011E08933600520888 /* Task+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Task+CoreDataProperties.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,12 +79,17 @@
 				8A256BD11DFA3F3A0072FE16 /* AppDelegate.h */,
 				8A256BD21DFA3F3A0072FE16 /* AppDelegate.m */,
 				8A256BD71DFA3F3A0072FE16 /* Main.storyboard */,
-				8A256BEB1DFA4B8A0072FE16 /* ToDoItem.h */,
-				8A256BEC1DFA4B8A0072FE16 /* ToDoItem.m */,
 				8A256BDA1DFA3F3A0072FE16 /* Assets.xcassets */,
 				8A256BDC1DFA3F3A0072FE16 /* LaunchScreen.storyboard */,
 				8A256BDF1DFA3F3A0072FE16 /* Info.plist */,
 				8A256BCE1DFA3F3A0072FE16 /* Supporting Files */,
+				8A9367F71E088FEE00520888 /* Model.xcdatamodeld */,
+				8A9367FA1E08907300520888 /* DataManager.h */,
+				8A9367FB1E08907300520888 /* DataManager.m */,
+				8A9367FD1E0892A000520888 /* Task+CoreDataClass.h */,
+				8A9367FE1E0892A000520888 /* Task+CoreDataClass.m */,
+				8A9368001E08933600520888 /* Task+CoreDataProperties.h */,
+				8A9368011E08933600520888 /* Task+CoreDataProperties.m */,
 			);
 			path = "TaskTracking-C";
 			sourceTree = "<group>";
@@ -161,10 +174,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A256BD31DFA3F3A0072FE16 /* AppDelegate.m in Sources */,
-				8A256BED1DFA4B8A0072FE16 /* ToDoItem.m in Sources */,
 				8A256BEA1DFA44BF0072FE16 /* AddTaskViewController.m in Sources */,
+				8A9368021E08933600520888 /* Task+CoreDataProperties.m in Sources */,
+				8A9367F91E088FEE00520888 /* Model.xcdatamodeld in Sources */,
 				8A256BD01DFA3F3A0072FE16 /* main.m in Sources */,
 				8A256BE71DFA44A40072FE16 /* MasterTableViewController.m in Sources */,
+				8A9367FC1E08907300520888 /* DataManager.m in Sources */,
+				8A9367FF1E0892A000520888 /* Task+CoreDataClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,8 +337,22 @@
 				8A256BE41DFA3F3A0072FE16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8A9367F71E088FEE00520888 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8A9367F81E088FEE00520888 /* Model.xcdatamodel */,
+			);
+			currentVersion = 8A9367F81E088FEE00520888 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8A256BC31DFA3F3A0072FE16 /* Project object */;
 }

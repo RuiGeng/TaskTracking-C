@@ -20,6 +20,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //Style UITextView
+    [self setUITextViewStyle];
+    
     //Date Picker
     [self setDatePicker];
     
@@ -50,15 +53,21 @@
     [self.datePicker addTarget:self action:@selector(onDatePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     
     self.txtDateTime.inputView = self.datePicker;
+    [self setTxtDateTimeValue:self.datePicker.date];
+
 }
 
 - (void)onDatePickerValueChanged:(UIDatePicker *)datePicker
 {
+    [self setTxtDateTimeValue:datePicker.date];
+}
+
+-(void)setTxtDateTimeValue:(NSDate *)date{
     NSDateFormatter __autoreleasing *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setTimeZone:[NSTimeZone systemTimeZone]];
     [dateFormat setDateFormat:@"YYYY-MM-dd HH:mm"];
     
-    self.txtDateTime.text = [dateFormat stringFromDate:datePicker.date];
+    self.txtDateTime.text = [dateFormat stringFromDate:date];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -67,6 +76,17 @@
     self.dateTime = self.datePicker.date;
     self.progress = [NSNumber numberWithFloat: self.sliderProgress.value];
 
+}
+
+//Set UITextView Border
+-(void) setUITextViewStyle{
+    UIColor *borderColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1.0];
+    
+    //Face
+    self.txtDetail.layer.borderColor = borderColor.CGColor;
+    self.txtDetail.layer.borderWidth = 1.0;
+    self.txtDetail.layer.cornerRadius = 5.0;
+    
 }
 
 @end

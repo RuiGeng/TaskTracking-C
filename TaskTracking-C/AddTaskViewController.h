@@ -18,8 +18,11 @@
 
 @property (weak, nonatomic) IBOutlet UISlider *sliderProgress;
 
+@property (weak, nonatomic) IBOutlet UITextView *txtDetail;
+
 @property NSString *taskName;
 @property NSDate *dateTime;
 @property NSNumber *progress;
+@property NSString *taskDetail;
 
 @end

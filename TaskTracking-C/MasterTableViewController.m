@@ -7,7 +7,9 @@
 //
 
 #import "MasterTableViewController.h"
-#import "ToDoItem.h"
+#import "AddTaskViewController.h"
+#import "Task+CoreDataProperties.h"
+#import "DataManager.h"
 
 @interface MasterTableViewController ()
 
@@ -33,21 +35,23 @@
 
 - (void)loadInitialData{
     
-    ToDoItem *item1 = [[ToDoItem alloc] init];
-    item1.itemName = @"Buy milk";
-    item1.creationDate = [NSDate date];
-    [self.toDoItems addObject:item1];
+    NSManagedObjectContext *managedObjectContext = [[DataManager sharedManager] managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:managedObjectContext];
+    [fetchRequest setEntity:entity];
+
+    // Specify how the fetched objects should be sorted
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"taskName" ascending:YES];
     
-    ToDoItem *item2 = [[ToDoItem alloc] init];
-    item2.itemName = @"Buy eggs";
-    item2.creationDate = [NSDate date];
-    [self.toDoItems addObject:item2];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
     
-    ToDoItem *item3 = [[ToDoItem alloc] init];
-    item3.itemName = @"Read a book";
-    item3.creationDate = [NSDate date];
-    [self.toDoItems addObject:item3];
-    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects == nil) {
+        NSLog(@"Unresolved Fetch Error%@",error);
+    }else{
+        [self.toDoItems addObjectsFromArray:fetchedObjects];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,11 +79,17 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] init];
+    }
     
-    cell.textLabel.text = toDoItem.itemName;
+    Task *task = self.toDoItems[indexPath.row];
     
-    cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:toDoItem.creationDate
+    //ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = task.taskName;
+    
+    cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:task.dueDate
                                                                dateStyle:NSDateFormatterShortStyle
                                                                timeStyle:NSDateFormatterShortStyle];
     return cell;
@@ -141,6 +151,27 @@
     }
     else if([segue.identifier isEqualToString:@"save"]){
         
+        AddTaskViewController *source = [segue sourceViewController];
+        
+        if(source.taskName != nil){
+            
+            NSManagedObjectContext *managedObjectContext = [[DataManager sharedManager] managedObjectContext];
+            
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:managedObjectContext];
+            
+            Task *task = [[Task alloc]initWithEntity: entityDescription insertIntoManagedObjectContext:managedObjectContext];
+            
+            task.taskName = source.taskName;
+            task.dueDate = source.dateTime;
+            task.progress = source.progress;
+            task.taskDetail = source.taskDetail;
+            
+            [self.toDoItems insertObject:task atIndex:0];
+            
+            [[DataManager sharedManager] saveContext];
+            
+            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+        }
     }
 }
 

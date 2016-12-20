@@ -39,7 +39,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:managedObjectContext];
     [fetchRequest setEntity:entity];
-
+    
     // Specify how the fetched objects should be sorted
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"taskName" ascending:YES];
     
@@ -85,13 +85,16 @@
     
     Task *task = self.toDoItems[indexPath.row];
     
-    //ToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
-    
     cell.textLabel.text = task.taskName;
     
-    cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:task.dueDate
-                                                               dateStyle:NSDateFormatterShortStyle
-                                                               timeStyle:NSDateFormatterShortStyle];
+    
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Due at %@ - %@%% complete",
+                                 [NSDateFormatter localizedStringFromDate:task.dueDate
+                                                                dateStyle:NSDateFormatterShortStyle
+                                                                timeStyle:NSDateFormatterShortStyle],
+                                 task.progress];
+    
+    
     return cell;
 }
 
@@ -159,8 +162,21 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    AddTaskViewController *controller = (AddTaskViewController *)[[segue destinationViewController] topViewController];
+    
     if ([[segue identifier] isEqualToString:@"selectSegue"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        
+        Task *task = self.toDoItems[indexPath.row];
+        
+        [controller editTask:task];
+        controller.editFlag = true;
+        controller.rowNumber = indexPath.row;
+    }
+    else if([[segue identifier] isEqualToString:@"selectSegue"]){
+        
+        controller.editFlag = false;
     }
 }
 
@@ -175,11 +191,12 @@
         
         AddTaskViewController *source = [segue sourceViewController];
         
-        if(source.taskName != nil){
-            
-            NSManagedObjectContext *managedObjectContext = [[DataManager sharedManager] managedObjectContext];
-            
-            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:managedObjectContext];
+        NSManagedObjectContext *managedObjectContext = [[DataManager sharedManager] managedObjectContext];
+        
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:managedObjectContext];
+        
+        
+        if(source.taskName != nil && source.editFlag == false){
             
             Task *task = [[Task alloc]initWithEntity: entityDescription insertIntoManagedObjectContext:managedObjectContext];
             
@@ -193,6 +210,19 @@
             [[DataManager sharedManager] saveContext];
             
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+        }
+        else if(source.taskName != nil && source.editFlag == true){
+            
+            Task *task = self.toDoItems[source.rowNumber];
+            
+            task.taskName = source.taskName;
+            task.dueDate = source.dateTime;
+            task.progress = source.progress;
+            task.taskDetail = source.taskDetail;
+            
+            [[DataManager sharedManager] saveContext];
+            
+            [self.tableView reloadData];
         }
     }
 }

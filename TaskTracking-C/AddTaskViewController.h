@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Task+CoreDataProperties.h"
 
 @interface AddTaskViewController : UIViewController
 
@@ -20,9 +21,15 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *txtDetail;
 
+@property (strong, nonatomic) Task *task;
+
 @property NSString *taskName;
 @property NSDate *dateTime;
 @property NSNumber *progress;
 @property NSString *taskDetail;
+@property BOOL editFlag;
+@property NSInteger rowNumber;
+
+- (void)editTask:(Task *)currentTask;
 
 @end

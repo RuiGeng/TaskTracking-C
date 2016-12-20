@@ -55,7 +55,7 @@
                     <navigationItem key="navigationItem" id="IPy-qh-Y6N">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hnX-yv-RM8">
                             <connections>
-                                <segue destination="GwH-45-uBt" kind="presentation" id="y0c-8a-r1W"/>
+                                <segue destination="GwH-45-uBt" kind="presentation" identifier="addSegue" id="y0c-8a-r1W"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -205,6 +205,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="icf-W5-sf5"/>
+        <segue reference="y0c-8a-r1W"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -16,6 +16,24 @@
 
 @implementation AddTaskViewController
 
+
+- (void)configureView {
+    // Update the user interface for the detail item.
+    if (self.task) {
+        
+        self.txtTask.text = self.task.taskName;
+        
+        self.txtDateTime.text = [self formatDate:self.task.dueDate];
+        
+        self.sliderProgress.value = [self.task.progress floatValue];
+        
+        [self setLabProgressValue:self.sliderProgress.value];
+        
+        self.txtDetail.text = self.task.taskDetail;
+        
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -28,6 +46,9 @@
     
     // set Progress
     [self setLabProgressValue:self.sliderProgress.value];
+    
+    // Do any additional setup after loading the view, typically from a nib.
+    [self configureView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,7 +75,7 @@
     
     self.txtDateTime.inputView = self.datePicker;
     [self setTxtDateTimeValue:self.datePicker.date];
-
+    
 }
 
 - (void)onDatePickerValueChanged:(UIDatePicker *)datePicker
@@ -72,10 +93,21 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    self.taskName = self.txtTask.text;
-    self.dateTime = self.datePicker.date;
-    self.progress = [NSNumber numberWithFloat: self.sliderProgress.value];
+    if (self.editFlag){
+        NSLog(@"editFlag is true.");
 
+    }else{
+        NSLog(@"editFlag is not true.");
+    }
+   
+    self.taskName = self.txtTask.text;
+    
+    self.dateTime = self.datePicker.date;
+    
+    self.progress = [NSNumber numberWithFloat:lroundf(self.sliderProgress.value)];
+    
+    self.taskDetail = self.txtDetail.text;
+    
 }
 
 //Set UITextView Border
@@ -87,6 +119,27 @@
     self.txtDetail.layer.borderWidth = 1.0;
     self.txtDetail.layer.cornerRadius = 5.0;
     
+}
+
+-(void)editTask:(Task *)currentTask {
+    
+    if (self.task != currentTask) {
+        
+        self.task = currentTask;
+        // Update the view.
+        [self configureView];
+    }
+}
+
+- (NSString *)formatDate: (NSDate *) DateTime{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
+    
+    NSString *formattedDateString = [dateFormatter stringFromDate:DateTime];
+    
+    return formattedDateString;
 }
 
 @end
